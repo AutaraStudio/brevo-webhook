@@ -20,7 +20,17 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { email } = JSON.parse(event.body);
+    const { email, subSource } = JSON.parse(event.body);
+
+    // Build attributes object
+    const attributes = {
+      SOURCE: ['Content Download']
+    };
+    
+    // Only add SUB_SOURCE if it exists
+    if (subSource) {
+      attributes.SUB_SOURCE = subSource;
+    }
 
     const response = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
@@ -33,9 +43,7 @@ exports.handler = async (event, context) => {
         email: email,
         listIds: [34],
         updateEnabled: true,
-        attributes: {
-          SOURCE: ['Content Download']
-        }
+        attributes: attributes
       })
     });
 
