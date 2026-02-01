@@ -32,7 +32,10 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         email: email,
         listIds: [34],
-        updateEnabled: true
+        updateEnabled: true,
+        attributes: {
+          SOURCE: ['Content Download']
+        }
       })
     });
 
